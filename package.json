@@ -1,0 +1,19 @@
+{
+  "name": "bay-lms",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "contracts"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "deploy:contracts": "cd contracts && npx hardhat run script/00_deploy.ts --network sepolia",
+    "deploy:eas": "cd contracts && npx hardhat run script/10_register_eas.ts --network sepolia"
+  },
+  "devDependencies": {
+    "turbo": "^1.10.12"
+  }
+}

@@ -1,0 +1,76 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: DepositEscrow
+    network: sepolia
+    source:
+      address: "0x..." # 배포 후 업데이트
+      abi: DepositEscrow
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Deposit
+        - Refund
+        - Slash
+        - Stake
+      abis:
+        - name: DepositEscrow
+          file: ./abis/DepositEscrow.json
+      eventHandlers:
+        - event: Deposit(indexed bytes32,indexed address,uint256)
+          handler: handleDeposit
+        - event: Refund(indexed bytes32,indexed address,uint256)
+          handler: handleRefund
+        - event: Slash(indexed bytes32,indexed address,uint256,uint256)
+          handler: handleSlash
+      callHandlers: []
+      file: ./src/deposit-escrow.ts
+
+  - kind: ethereum
+    name: AssignmentRegistry
+    network: sepolia
+    source:
+      address: "0x..." # 배포 후 업데이트
+      abi: AssignmentRegistry
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Submission
+      abis:
+        - name: AssignmentRegistry
+          file: ./abis/AssignmentRegistry.json
+      eventHandlers:
+        - event: AssignmentSubmitted(indexed bytes32,indexed uint256,indexed address,bytes32,string[])
+          handler: handleAssignmentSubmitted
+      callHandlers: []
+      file: ./src/assignment-registry.ts
+
+  - kind: ethereum
+    name: BayCertificate
+    network: sepolia
+    source:
+      address: "0x..." # 배포 후 업데이트
+      abi: BayCertificate
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Certificate
+      abis:
+        - name: BayCertificate
+          file: ./abis/BayCertificate.json
+      eventHandlers:
+        - event: CertificateMinted(indexed address,indexed uint256,string,indexed bytes32)
+          handler: handleCertificateMinted
+      callHandlers: []
+      file: ./src/bay-certificate.ts

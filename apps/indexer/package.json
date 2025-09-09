@@ -1,0 +1,17 @@
+{
+  "name": "bay-lms-subgraph",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "codegen": "graph codegen",
+    "build": "graph build",
+    "deploy": "graph deploy --node https://api.thegraph.com/deploy/ bay-lms-subgraph",
+    "create-local": "graph create --node http://localhost:8020/ bay-lms-subgraph",
+    "remove-local": "graph remove --node http://localhost:8020/ bay-lms-subgraph",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 bay-lms-subgraph"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "^0.56.0",
+    "@graphprotocol/graph-ts": "^0.31.0"
+  }
+}

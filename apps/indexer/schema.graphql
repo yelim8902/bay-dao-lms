@@ -1,0 +1,128 @@
+type Cohort @entity {
+  id: ID!
+  cohortId: Bytes!
+  name: String!
+  track: String!
+  depositAmount: BigInt!
+  startAt: BigInt!
+  endAt: BigInt!
+  minPassRate: BigInt!
+  isActive: Boolean!
+  teams: [Team!]! @derivedFrom(field: "cohort")
+  assignments: [Assignment!]! @derivedFrom(field: "cohort")
+  createdAt: BigInt!
+}
+
+type Team @entity {
+  id: ID!
+  teamId: Bytes!
+  cohort: Cohort!
+  cohortId: Bytes!
+  name: String!
+  leader: Bytes!
+  members: [Bytes!]!
+  depositCompleted: Boolean!
+  submissions: [Submission!]! @derivedFrom(field: "team")
+  createdAt: BigInt!
+}
+
+type Assignment @entity {
+  id: ID!
+  assignmentId: BigInt!
+  cohort: Cohort!
+  cohortId: Bytes!
+  title: String!
+  dueAt: BigInt!
+  weight: BigInt!
+  isActive: Boolean!
+  submissions: [Submission!]! @derivedFrom(field: "assignment")
+  createdAt: BigInt!
+}
+
+type Submission @entity {
+  id: ID!
+  assignment: Assignment!
+  assignmentId: BigInt!
+  student: Bytes!
+  team: Team!
+  teamId: Bytes!
+  cidHash: Bytes!
+  links: [String!]!
+  submittedAt: BigInt!
+  isLate: Boolean!
+  status: String!
+  finalScore: BigInt
+  passed: Boolean!
+  reviews: [Review!]! @derivedFrom(field: "submission")
+  createdAt: BigInt!
+}
+
+type Review @entity {
+  id: ID!
+  submission: Submission!
+  submissionId: String!
+  reviewer: Bytes!
+  score: BigInt!
+  pass: Boolean!
+  comment: String
+  easUid: Bytes
+  reviewedAt: BigInt!
+  createdAt: BigInt!
+}
+
+type Certificate @entity {
+  id: ID!
+  student: Bytes!
+  cohortId: Bytes!
+  tokenId: BigInt
+  easUid: Bytes
+  oaDocumentId: String
+  name: String!
+  description: String
+  imageUri: String
+  metadataUri: String
+  finalScore: BigInt
+  status: String!
+  issuedAt: BigInt!
+  createdAt: BigInt!
+}
+
+type Stake @entity {
+  id: ID!
+  cohortId: Bytes!
+  user: Bytes!
+  amount: BigInt!
+  settled: Boolean!
+  createdAt: BigInt!
+}
+
+type Deposit @entity {
+  id: ID!
+  cohortId: Bytes!
+  user: Bytes!
+  amount: BigInt!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}
+
+type Refund @entity {
+  id: ID!
+  cohortId: Bytes!
+  user: Bytes!
+  amount: BigInt!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}
+
+type Slash @entity {
+  id: ID!
+  cohortId: Bytes!
+  user: Bytes!
+  amount: BigInt!
+  slashAmount: BigInt!
+  txHash: Bytes!
+  blockNumber: BigInt!
+  timestamp: BigInt!
+}

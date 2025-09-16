@@ -1,0 +1,21 @@
+{
+  "name": "@bay-lms/shared",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bay LMS 공통 타입, 컨트랙트 주소, ABI 정의",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "devDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "keywords": [
+    "bay-lms",
+    "contracts",
+    "types",
+    "shared"
+  ]
+}

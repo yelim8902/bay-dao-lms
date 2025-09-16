@@ -49,14 +49,19 @@ contract DepositEscrow {
     }
 
     function deposit(bytes32 cohortId, uint256 amt) external {
-        require(stakes[cohortId][msg.sender].amount == 0, "already staked");
+        // 중복 예치 허용 - 기존 예치가 있으면 추가
         require(amt > 0, "amount must be positive");
         require(
             token.transferFrom(msg.sender, address(this), amt),
             "transfer failed"
         );
 
-        stakes[cohortId][msg.sender] = Stake(amt, false);
+        // 기존 예치가 있으면 추가, 없으면 새로 생성
+        if (stakes[cohortId][msg.sender].amount > 0) {
+            stakes[cohortId][msg.sender].amount += amt;
+        } else {
+            stakes[cohortId][msg.sender] = Stake(amt, false);
+        }
         emit Deposit(cohortId, msg.sender, amt);
     }
 

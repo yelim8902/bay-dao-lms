@@ -1,132 +1,67 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Award, ExternalLink, Shield, Calendar } from 'lucide-react';
-import { CertificateModal } from './CertificateModal';
+import React from "react";
+import { Award, Calendar, Trophy } from "lucide-react";
 
-interface CertificateCardProps {
+interface Certificate {
+  id: number;
   tokenId: number;
   name: string;
   cohortId: string;
   issuedAt: string;
-  status: 'completed' | 'pending' | 'revoked';
-  onClick?: () => void;
+  status: string;
 }
 
-export function CertificateCard({ 
-  tokenId, 
-  name, 
-  cohortId, 
-  issuedAt, 
-  status,
-  onClick
+interface CertificateCardProps {
+  certificate: Certificate;
+  onClick: () => void;
+}
+
+export function CertificateCard({
+  certificate,
+  onClick,
 }: CertificateCardProps) {
-  const [isCertificateModalOpen, setIsCertificateModalOpen] = useState(false);
-  const getStatusIcon = () => {
-    switch (status) {
-      case 'completed':
-        return <Shield className="h-5 w-5 text-green-500" />;
-      case 'pending':
-        return <Award className="h-5 w-5 text-yellow-500" />;
-      case 'revoked':
-        return <Award className="h-5 w-5 text-red-500" />;
-    }
-  };
-
-  const getStatusText = () => {
-    switch (status) {
-      case 'completed':
-        return '발급완료';
-      case 'pending':
-        return '발급대기';
-      case 'revoked':
-        return '취소됨';
-    }
-  };
-
-  const getStatusColor = () => {
-    switch (status) {
-      case 'completed':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'revoked':
-        return 'bg-red-100 text-red-800';
-    }
-  };
+  // certificate가 없으면 렌더링하지 않음
+  if (!certificate) {
+    return null;
+  }
 
   return (
-    <div className="card hover:shadow-lg transition-shadow">
+    <div
+      className="bg-white border border-gray-200 rounded-xl p-6 cursor-pointer hover:shadow-lg transition-all hover:border-blue-300"
+      onClick={onClick}
+    >
       <div className="flex items-start justify-between mb-4">
-        <div 
-          className={`flex items-center space-x-2 flex-1 ${onClick ? 'cursor-pointer' : ''}`}
-          onClick={onClick}
-        >
-          <Award className="h-6 w-6 text-primary-600" />
+        <div className="flex items-center space-x-3">
+          <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
+            <Award className="h-6 w-6 text-white" />
+          </div>
           <div>
-            <h3 className={`text-lg font-semibold text-gray-900 ${onClick ? 'hover:text-blue-600 transition-colors' : ''}`}>
-              {name}
+            <h3 className="font-bold text-gray-900 text-lg">
+              {certificate.name}
             </h3>
-            <p className="text-sm text-gray-600">Token ID: #{tokenId}</p>
+            <p className="text-sm text-gray-600">{certificate.cohortId}</p>
           </div>
         </div>
-        <div className={`flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${getStatusColor()}`}>
-          {getStatusIcon()}
-          <span>{getStatusText()}</span>
+        <div className="text-right">
+          <div className="flex items-center space-x-1 text-yellow-600">
+            <Trophy className="h-4 w-4" />
+            <span className="font-bold text-lg">95점</span>
+          </div>
         </div>
       </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center space-x-2 text-sm text-gray-600">
+      <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+        {certificate.name} 과정을 성공적으로 완료했습니다.
+      </p>
+
+      <div className="flex items-center justify-between text-sm text-gray-500">
+        <div className="flex items-center space-x-1">
           <Calendar className="h-4 w-4" />
-          <span>발급일: {issuedAt}</span>
+          <span>발급일: {certificate.issuedAt}</span>
         </div>
-
-        <div className="pt-2 border-t">
-          <div className="flex items-center justify-between text-xs text-gray-500">
-            <span className="font-mono">Cohort: {cohortId}</span>
-            <span className="flex items-center space-x-1">
-              <Shield className="h-3 w-3" />
-              <span>SBT</span>
-            </span>
-          </div>
-        </div>
+        <span className="text-blue-600 font-medium">인증서 보기</span>
       </div>
-
-      <div className="mt-4 flex space-x-2">
-        {status === 'completed' && (
-          <>
-            <button 
-              onClick={() => setIsCertificateModalOpen(true)}
-              className="btn-primary flex-1 text-sm"
-            >
-              인증서 보기
-            </button>
-            <button className="btn-secondary text-sm">
-              <ExternalLink className="h-4 w-4" />
-            </button>
-          </>
-        )}
-        {status === 'pending' && (
-          <button className="btn-secondary w-full text-sm" disabled>
-            발급 대기 중
-          </button>
-        )}
-        {status === 'revoked' && (
-          <button className="btn-secondary w-full text-sm" disabled>
-            취소된 인증서
-          </button>
-        )}
-      </div>
-
-      <CertificateModal
-        isOpen={isCertificateModalOpen}
-        onClose={() => setIsCertificateModalOpen(false)}
-        tokenId={tokenId}
-        name={name}
-        cohortId={cohortId}
-        issuedAt={issuedAt}
-      />
     </div>
   );
 }

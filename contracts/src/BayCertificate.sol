@@ -1,13 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.24;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "./IERC5192.sol";
 
-contract BayCertificate is ERC721URIStorage, IERC5192 {
+// 간단한 ERC721 구현 (OpenZeppelin 없이)
+contract BayCertificate is IERC5192 {
     address public minter;
     mapping(uint256 => bool) private _locked; // 항상 true: 비양도
+    
+    // ERC721 기본 변수들
+    string public name = "Bay Certificate";
+    string public symbol = "BAY";
+    mapping(uint256 => address) private _owners;
+    mapping(address => uint256) private _balances;
+    mapping(uint256 => address) private _tokenApprovals;
+    mapping(address => mapping(address => bool)) private _operatorApprovals;
+    mapping(uint256 => string) private _tokenURIs;
 
     event CertificateMinted(
         address indexed to,

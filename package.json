@@ -10,8 +10,9 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "deploy:contracts": "cd contracts && npx hardhat run script/00_deploy.ts --network sepolia",
-    "deploy:eas": "cd contracts && npx hardhat run script/10_register_eas.ts --network sepolia"
+    "build:shared": "cd packages/shared && npm run build",
+    "clean": "turbo run clean && rm -rf node_modules/.cache",
+    "contracts:info": "echo 'Contracts are deployed via Remix IDE. See contracts/README.md for details.'"
   },
   "devDependencies": {
     "turbo": "^1.10.12"

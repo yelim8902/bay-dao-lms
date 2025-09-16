@@ -1,218 +1,35 @@
-// Bay LMS Contract Addresses (Sepolia)
-// Sepolia 테스트넷에 배포된 컨트랙트 주소들 (selfRefund 함수 포함)
-export const CONTRACTS = {
-  MOCK_TOKEN: '0xf9114ff8CA410e838e6e003A21659B7C849113A9', // Sepolia 배포된 MockERC20
-  COHORT_MANAGER: '0x1234567890123456789012345678901234567890', // TODO: 배포 필요
-  DEPOSIT_ESCROW: '0xd9145CCE52D386f254917e481eB44e9943F39138', // Sepolia 배포된 DepositEscrow (selfRefund 포함)
-  ASSIGNMENT_REGISTRY: '0x3456789012345678901234567890123456789012', // TODO: 배포 필요
-  VERIFIER_GATEWAY: '0x4567890123456789012345678901234567890123', // TODO: 배포 필요
-  BAY_CERTIFICATE: '0x5678901234567890123456789012345678901234', // TODO: 배포 필요
-} as const;
+// Bay LMS Contract Addresses and ABIs
+// 공통 패키지에서 import하여 중복 제거
 
-export const EAS_ADDRESS = '0xC2679fBD37d54388Ce493F1DB75320D236e1815e';
-export const SCHEMA_REGISTRY = '0x0a7E2Ff54e76B8E6659aedc9103FB21c038050D0';
+import {
+  CONTRACTS,
+  EAS_ADDRESS,
+  SCHEMA_REGISTRY,
+  MOCK_TOKEN_ABI,
+  DEPOSIT_ESCROW_ABI,
+  ASSIGNMENT_REGISTRY_ABI,
+  COHORT_MANAGER_ABI,
+  BAY_CERTIFICATE_ABI,
+  MOCK_TOKEN_CONTRACT,
+  DEPOSIT_ESCROW_CONTRACT,
+  BAY_CERTIFICATE_CONTRACT,
+} from "@bay-lms/shared";
 
-// MockERC20 ABI (배포된 컨트랙트용)
-export const MOCK_TOKEN_ABI = [
-  {
-    "inputs": [],
-    "name": "name",
-    "outputs": [{"internalType": "string", "name": "", "type": "string"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "symbol",
-    "outputs": [{"internalType": "string", "name": "", "type": "string"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "decimals",
-    "outputs": [{"internalType": "uint8", "name": "", "type": "uint8"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "totalSupply",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "address", "name": "", "type": "address"}],
-    "name": "balanceOf",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {"internalType": "address", "name": "to", "type": "address"},
-      {"internalType": "uint256", "name": "amount", "type": "uint256"}
-    ],
-    "name": "transfer",
-    "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {"internalType": "address", "name": "from", "type": "address"},
-      {"internalType": "address", "name": "to", "type": "address"},
-      {"internalType": "uint256", "name": "amount", "type": "uint256"}
-    ],
-    "name": "transferFrom",
-    "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {"internalType": "address", "name": "spender", "type": "address"},
-      {"internalType": "uint256", "name": "amount", "type": "uint256"}
-    ],
-    "name": "approve",
-    "outputs": [{"internalType": "bool", "name": "", "type": "bool"}],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {"internalType": "address", "name": "owner", "type": "address"},
-      {"internalType": "address", "name": "spender", "type": "address"}
-    ],
-    "name": "allowance",
-    "outputs": [{"internalType": "uint256", "name": "", "type": "uint256"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {"internalType": "address", "name": "to", "type": "address"},
-      {"internalType": "uint256", "name": "amount", "type": "uint256"}
-    ],
-    "name": "mint",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {"indexed": true, "internalType": "address", "name": "from", "type": "address"},
-      {"indexed": true, "internalType": "address", "name": "to", "type": "address"},
-      {"indexed": false, "internalType": "uint256", "name": "value", "type": "uint256"}
-    ],
-    "name": "Transfer",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {"indexed": true, "internalType": "address", "name": "owner", "type": "address"},
-      {"indexed": true, "internalType": "address", "name": "spender", "type": "address"},
-      {"indexed": false, "internalType": "uint256", "name": "value", "type": "uint256"}
-    ],
-    "name": "Approval",
-    "type": "event"
-  }
-] as const;
+// 모든 exports
+export {
+  CONTRACTS,
+  EAS_ADDRESS,
+  SCHEMA_REGISTRY,
+  MOCK_TOKEN_ABI,
+  DEPOSIT_ESCROW_ABI,
+  ASSIGNMENT_REGISTRY_ABI,
+  COHORT_MANAGER_ABI,
+  BAY_CERTIFICATE_ABI,
+  MOCK_TOKEN_CONTRACT,
+  DEPOSIT_ESCROW_CONTRACT,
+  BAY_CERTIFICATE_CONTRACT,
+};
 
-export const DEPOSIT_ESCROW_ABI = [
-  {
-    "inputs": [{"internalType": "bytes32", "name": "cohortId", "type": "bytes32"}, {"internalType": "uint256", "name": "amount", "type": "uint256"}],
-    "name": "deposit",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "bytes32", "name": "cohortId", "type": "bytes32"}, {"internalType": "address", "name": "user", "type": "address"}],
-    "name": "refund",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "bytes32", "name": "cohortId", "type": "bytes32"}],
-    "name": "selfRefund",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "bytes32", "name": "cohortId", "type": "bytes32"}, {"internalType": "address", "name": "user", "type": "address"}, {"internalType": "uint256", "name": "bps", "type": "uint256"}],
-    "name": "slash",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [{"internalType": "bytes32", "name": "cohortId", "type": "bytes32"}, {"internalType": "address", "name": "user", "type": "address"}],
-    "name": "getStake",
-    "outputs": [{"internalType": "uint256", "name": "amount", "type": "uint256"}, {"internalType": "bool", "name": "settled", "type": "bool"}],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {"indexed": true, "internalType": "bytes32", "name": "cohortId", "type": "bytes32"},
-      {"indexed": true, "internalType": "address", "name": "user", "type": "address"},
-      {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
-    ],
-    "name": "Deposit",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {"indexed": true, "internalType": "bytes32", "name": "cohortId", "type": "bytes32"},
-      {"indexed": true, "internalType": "address", "name": "user", "type": "address"},
-      {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"}
-    ],
-    "name": "Refund",
-    "type": "event"
-  },
-  {
-    "anonymous": false,
-    "inputs": [
-      {"indexed": true, "internalType": "bytes32", "name": "cohortId", "type": "bytes32"},
-      {"indexed": true, "internalType": "address", "name": "user", "type": "address"},
-      {"indexed": false, "internalType": "uint256", "name": "amount", "type": "uint256"},
-      {"indexed": false, "internalType": "uint256", "name": "slashAmount", "type": "uint256"}
-    ],
-    "name": "Slash",
-    "type": "event"
-  }
-] as const;
-
-export const ASSIGNMENT_REGISTRY_ABI = [
-  'function submit(bytes32 cohortId, uint256 assignmentId, bytes32 cidHash, string[] calldata links)',
-  'function getSubmission(bytes32 cohortId, uint256 assignmentId, address student) view returns (tuple(bytes32 cidHash, uint40 submittedAt, string[] links, bool isLate))',
-  'function isSubmissionLate(bytes32 cohortId, uint256 assignmentId, address student) view returns (bool)',
-  'event AssignmentSubmitted(bytes32 indexed cohortId, uint256 indexed assignmentId, address indexed student, bytes32 cidHash, string[] links)',
-] as const;
-
-export const COHORT_MANAGER_ABI = [
-  'function createCohort(bytes32 cohortId, string calldata name, string calldata track, uint256 depositAmount, uint256 startAt, uint256 endAt, uint256 minPassRate)',
-  'function createTeam(bytes32 teamId, bytes32 cohortId, string calldata name)',
-  'function addTeamMember(bytes32 teamId, address member)',
-  'function getCohort(bytes32 cohortId) view returns (tuple(bytes32 id, string name, string track, uint256 depositAmount, uint256 startAt, uint256 endAt, uint256 minPassRate, bool isActive))',
-  'function getTeam(bytes32 teamId) view returns (tuple(bytes32 id, bytes32 cohortId, string name, address leader, address[] members, bool depositCompleted))',
-  'function isTeamMember(bytes32 teamId, address member) view returns (bool)',
-] as const;
-
-export const BAY_CERTIFICATE_ABI = [
-  'function mint(address to, uint256 tokenId, string memory uri, bytes32 cohortId)',
-  'function batchMint(address[] calldata recipients, uint256[] calldata tokenIds, string[] calldata uris, bytes32 cohortId)',
-  'function tokenURI(uint256 tokenId) view returns (string)',
-  'function ownerOf(uint256 tokenId) view returns (address)',
-  'function balanceOf(address owner) view returns (uint256)',
-  'function locked(uint256 tokenId) view returns (bool)',
-  'event CertificateMinted(address indexed to, uint256 indexed tokenId, string uri, bytes32 indexed cohortId)',
-] as const;
+// 레거시 호환성을 위한 re-export
+export const MOCK_TOKEN = MOCK_TOKEN_CONTRACT;
+export const DEPOSIT_ESCROW = DEPOSIT_ESCROW_CONTRACT;

@@ -118,7 +118,13 @@ export function SimpleDepositModal({
       } as any);
       await waitForTransactionReceipt(cfg, { hash: depositHash });
 
-      alert(`✅ ${amount} bUSD 예치 완료!`);
+      alert(`✅ ${amount} bUSD 예치 완료! 이제 과제를 확인해보세요!`);
+
+      // 페이지 새로고침으로 상태 업데이트
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+
       onClose();
     } catch (e: any) {
       console.error(e);

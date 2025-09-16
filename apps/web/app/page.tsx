@@ -5,6 +5,7 @@ import { useAccount, useWriteContract } from "wagmi";
 import { Header } from "../components/Header";
 import { UserRoleSelector } from "../components/UserRoleSelector";
 import { StudentDashboard } from "../components/StudentDashboard";
+import { AdminDashboard } from "../components/AdminDashboard";
 import { useEffect, useState } from "react";
 import { MOCK_TOKEN, DEPOSIT_ESCROW } from "../lib/contracts";
 import { keccak256, toUtf8Bytes } from "ethers";
@@ -116,6 +117,17 @@ export default function Home() {
     setMounted(true);
   }, []);
 
+  // 지갑 연결 상태 변경 시 상태 초기화
+  useEffect(() => {
+    if (!isConnected) {
+      // 지갑 연결 해제 시 모든 상태 초기화
+      setCurrentStep("track");
+      setSelectedTrack(null);
+      setUserRole("student");
+      setIsDepositing(false);
+    }
+  }, [isConnected]);
+
   // Hydration 에러 방지
   if (!mounted) {
     return (
@@ -162,12 +174,14 @@ export default function Home() {
           </div>
         );
       case "admin":
-        return (
+        return isConnected && address ? (
+          <AdminDashboard address={address} />
+        ) : (
           <div className="text-center py-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">
               관리자 대시보드
             </h2>
-            <p className="text-gray-600">관리자 기능은 준비 중입니다.</p>
+            <p className="text-gray-600">지갑을 연결해주세요.</p>
           </div>
         );
       case "dao":
@@ -494,6 +508,18 @@ export default function Home() {
                     </ul>
                   </div>
 
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      역할 선택:
+                    </label>
+                    <UserRoleSelector
+                      onRoleChange={(role) => setUserRole(role as UserRole)}
+                      currentRole={
+                        userRole as "student" | "instructor" | "admin"
+                      }
+                    />
+                  </div>
+
                   <div className="flex space-x-3">
                     <button
                       onClick={() => setCurrentStep("track")}
@@ -505,7 +531,7 @@ export default function Home() {
                       onClick={() => setCurrentStep("dashboard")}
                       className="flex-1 bg-blue-600 text-white py-3 px-4 rounded-lg hover:bg-blue-700"
                     >
-                      참여하기
+                      {userRole === "admin" ? "관리자로 시작" : "참여하기"}
                     </button>
                   </div>
                 </div>
